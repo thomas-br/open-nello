@@ -2,6 +2,28 @@
 
 ## Table of Contents
 
+- [Nello One Docs](#nello-one-docs)
+  - [Table of Contents](#table-of-contents)
+  - [Hardware Overview](#hardware-overview)
+  - [Firmware \& Debug Access](#firmware--debug-access)
+  - [Known Firmare Versions](#known-firmare-versions)
+  - [Initial Configuration and Pairing](#initial-configuration-and-pairing)
+  - [MQTT Connection](#mqtt-connection)
+  - [Message encryption](#message-encryption)
+  - [Messages](#messages)
+    - [General](#general)
+    - [`/nello_one/<client-id>/map/`](#nello_oneclient-idmap)
+    - [`/nello_one/<client-id>/test/`](#nello_oneclient-idtest)
+    - [`/nello_one/<client-id>/BEn/`](#nello_oneclient-idben)
+    - [`/nello_one/<client-id>/n_ACK/`](#nello_oneclient-idn_ack)
+    - [`/nello_one/<client-id>/n_online/`](#nello_oneclient-idn_online)
+    - [`/nello_one/<client-id>/BE_ACK/`](#nello_oneclient-idbe_ack)
+    - [`/nello_one/<client-id>/geo/`](#nello_oneclient-idgeo)
+    - [`/nello_one/<client-id>/tw/`](#nello_oneclient-idtw)
+    - [`/nello_one/<client-id>/ring/`](#nello_oneclient-idring)
+  - [Intercom Configuration Values](#intercom-configuration-values)
+  - [Simplified State Diagram](#simplified-state-diagram)
+
 ## Hardware Overview
 
 The chip of the Nello One consists of the following hardware components, which are mainly SMDs soldered to the custom IC.
