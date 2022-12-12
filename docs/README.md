@@ -28,19 +28,22 @@
 
 The chip of the Nello One consists of the following hardware components, which are mainly SMDs soldered to the custom IC.
 
-| Component | Info |
-| -------------- | ---- |
-| SMD Pushbutton | Reset Button to return to factory settings |
-| LED | LED at the buttom right to indicate the current status |
-| Light Sensor | Next to the LED to receive the initial configuration data via the app |
-| `DMF3Z5R5H474M3DTA0` | Supercapacitor to balance unreliable power supply |
-| `ATWINC1510` | Wifi Module (2.4G) |
-| `ULN2001` | Darlington Array |
-| `V014642` | Issue Door Open Signals |
-| `WEP711 YR` | unclear |
-| `MB1S` | Bridge Rectifier |
-| `nRF52832-QFAA` | Processor + Flash (SoC) |
-| `TC2030-NL` | Serial Connection Pins (SWD) |
+| # | Component | Info |
+| - | ------------- | ---- |
+| I | SMD Pushbutton | Reset Button to return to factory settings |
+| II | LED | LED at the buttom right to indicate the current status |
+| III | Light Sensor | Next to the LED to receive the initial configuration data via the app |
+| IV | `DMF3Z5R5H474M3DTA0` | Supercapacitor to balance unreliable power supply |
+| V | `ATWINC1510` | Wifi Module (2.4G) |
+| VI | `ULN2001` | Darlington Array |
+| VII | `V014642` | Issue Door Open Signals |
+| VIII | `WEP711 YR` | Transient Voltage Suppressor |
+| IX | `MB1S` | Bridge Rectifier |
+| X | `TC2030-NL` | Serial Connection Pins (SWD) |
+| XI | `nRF52832-QFAA` | Processor + Flash (SoC) |
+
+<img src="./files/nello_hardware_a.png" width="45%"/> <img src="./files/nello_hardware_b.png" width="45%"/> 
+
 
 ## Firmware & Debug Access
 
@@ -50,7 +53,7 @@ The debug port is protected (`APPROTECT` flag activated in `UICR`) by the manufa
 What is possible with the protection though is to re-flash the chip with a new firmare, leading to a deletion of the existing contents in the flash.
 
 On the other hand, a hardware vulnerability is known in the nRF52 family, making it possible to boot the chip temporarily with the protection disabled using the *Fault Injection* technique (also known as *Hardware Glitching*).
-The vulnerability was published by [LimitedResults](TODO).
+The vulnerability was published by [LimitedResults](https://limitedresults.com/2020/06/nrf52-debug-resurrection-approtect-bypass/).
 As this allows full access to the flash until the next reset / reboot, the full contents can be extracted.
 With the downloaded firmware, the nello one can now be reflashed with an arbitrary patched version, including the activated debug port.
 
