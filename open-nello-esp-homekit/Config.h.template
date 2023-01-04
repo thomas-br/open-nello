@@ -1,0 +1,22 @@
+#define nello_client "xXXxXx"
+#define nello_aes_key "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+#define nello_aes_iv "YYYYYYYYYYYYYYYY"
+#define mqtt_hostname "mqtt.hostname.tld"
+
+#define qos 1
+#define mqtt_topic_prefix "/nello_one/" nello_client
+
+// topics to listen to
+#define mqtt_topic_map mqtt_topic_prefix "/map/"
+#define mqtt_topic_nack mqtt_topic_prefix "/n_ACK/"
+#define mqtt_topic_ntobe mqtt_topic_prefix "/n_to_BE/"
+#define mqtt_topic_nonline mqtt_topic_prefix "/n_online/"
+#define mqtt_topic_ring mqtt_topic_prefix "/ring/"
+
+// topics to publish to
+#define mqtt_topic_door mqtt_topic_prefix "/door/"
+#define mqtt_topic_test mqtt_topic_prefix "/test/"
+#define mqtt_topic_beack mqtt_topic_prefix "/BE_ACK/"
+
+#define ntp_server "pool.ntp.org"
+#define timezone "UTC+1:00"
