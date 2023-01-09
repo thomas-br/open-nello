@@ -24,8 +24,8 @@
   - [Intercom Configuration Values](#intercom-configuration-values)
   - [Simplified State Diagram](#simplified-state-diagram)
   - [Firmware Patching](#firmware-patching)
-  - [General](#general-1)
-  - [Hardware Glitching (Fault Injection Attack)](#hardware-glitching-fault-injection-attack)
+    - [General](#general-1)
+    - [Hardware Glitching (Fault Injection Attack)](#hardware-glitching-fault-injection-attack)
     - [Deactivate APPROTECT](#deactivate-approtect)
     - [AES Encryption Key Material](#aes-encryption-key-material)
     - [MQTT Broker Hostname](#mqtt-broker-hostname)
@@ -311,7 +311,7 @@ A simplified state diagram is planned to illustrate the message flows further
 
 ## Firmware Patching
 
-## General
+### General
 
 The Nello One come with enabled Access Port Protection (APPROTECT) from the factory. This means the Serial Port cannot be used to access the flash memory, registers or debugging functionalities. Still the the nRF52 can be reprogrammed (Firmware Flash + UICR) with the result of the complete flash memory to be erased before this operation (and potential loss of all data initially contained in there). The discovered hardware vulnerability discovered by LimitedResults (nRF52 platform) can be used to disable the APPROTECT without losing the stored data.
 
@@ -328,7 +328,7 @@ b) Perform the Hardware Glitching on the device & dump the original memory conte
 - Advanced & time consuming process (soldering required)
 
 
-## Hardware Glitching (Fault Injection Attack)
+### Hardware Glitching (Fault Injection Attack)
 
 The fault injection vulnerability discovered by [LimitedResults](https://limitedresults.com/2020/06/nrf52-debug-resurrection-approtect-bypass-part-2/) can be used on the Nello One to boot the underlying nRF52832 without initializing the APPROTECT feature.
 
