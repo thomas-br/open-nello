@@ -23,6 +23,13 @@
     - [`/nello_one/<client-id>/ring/`](#nello_oneclient-idring)
   - [Intercom Configuration Values](#intercom-configuration-values)
   - [Simplified State Diagram](#simplified-state-diagram)
+  - [Firmware Patching](#firmware-patching)
+  - [General](#general-1)
+  - [Hardware Glitching (Fault Injection Attack)](#hardware-glitching-fault-injection-attack)
+    - [Deactivate APPROTECT](#deactivate-approtect)
+    - [AES Encryption Key Material](#aes-encryption-key-material)
+    - [MQTT Broker Hostname](#mqtt-broker-hostname)
+    - [Nello Device ID](#nello-device-id)
 
 ## Hardware Overview
 
@@ -220,7 +227,7 @@ Sends Acknowledgement for a executed operation
 | `4` | Activation of geo mode opening |
 | `5` | Activation of time-window opening |
 | `6` | Deactivation of geo mode opening |
-| `6` | Deactivation of time-window opening |
+| `7` | Deactivation of time-window opening |
 
 ### `/nello_one/<client-id>/n_online/`
 
@@ -301,3 +308,70 @@ All supported intercom models and its configuration values are available to the 
 A simplified state diagram is planned to illustrate the message flows further
 
 `// TODO`
+
+## Firmware Patching
+
+## General
+
+The Nello One come with enabled Access Port Protection (APPROTECT) from the factory. This means the Serial Port cannot be used to access the flash memory, registers or debugging functionalities. Still the the nRF52 can be reprogrammed (Firmware Flash + UICR) with the result of the complete flash memory to be erased before this operation (and potential loss of all data initially contained in there). The discovered hardware vulnerability discovered by LimitedResults (nRF52 platform) can be used to disable the APPROTECT without losing the stored data.
+
+This results in two possible approaches to patch the nello Firmware in order to continue using it:
+
+a) Reprogramm the Nello One Chip with a patched firmware version (not originating from the individual device in question)
+
+- Loss of factory AES Key Material (you will never be able to use the official nello services again IF the ever come online again)
+- Easier & less time consuming (no soldering required)
+
+b) Perform the Hardware Glitching on the device & dump the original memory contents
+
+- Key Material & original device specific firmware can be backed-up
+- Advanced & time consuming process (soldering required)
+
+
+## Hardware Glitching (Fault Injection Attack)
+
+The fault injection vulnerability discovered by [LimitedResults](https://limitedresults.com/2020/06/nrf52-debug-resurrection-approtect-bypass-part-2/) can be used on the Nello One to boot the underlying nRF52832 without initializing the APPROTECT feature.
+
+The glitching itself can be achieved even without expensive hardware using the ESP32 based open source project [ESP32_nRF52_SWD](https://github.com/atc1441/ESP32_nRF52_SWD) by [atc1441](https://github.com/atc1441). Hardware needed:
+
+- ESP32 (3-10€)
+  - [Example Listing on AliExpress](https://de.aliexpress.com/item/1005004268911484.html)
+  - [Example Listing on eBay](https://www.ebay.de/itm/255283221996)
+- Mosfet Module (2-5€)
+  - [Example Listing on AliExpress](https://de.aliexpress.com/item/1005001914265871.html)
+  - [Example Listing on eBay](https://www.ebay.de/itm/164671160657)
+- Soldering Iron
+- (Jumper) Wires
+- TC2030-NL Cable (optional - saves you soldering the Serial Connection pin to the small pads)
+
+I achieved successful glitching attack on multiple Nello One boards *without* desoldering any of the resistors, other SMD components or PCB connections! After my experience it just takes much longer for a successful glitching attempt and the glitching position is less deterministic.
+
+![Glitching Wiring Schematic](./files/glitching_wiring_schematic.png)
+![Glitching DEC1 Wiring](./files/glitching_DEC1_wiring.png)
+![Glitching DEC1 Graph](./files/glitching_DEC1_graph.png)
+
+### Deactivate APPROTECT
+
+Disable the Access Port Protection of the nRF52 for persistent debug access within the [UICR](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.nrf52832.ps.v1.1%2Fuicr.html).
+
+![UICR APPROTECT](./files/patching_APPTROCECT_UICR.png)
+
+### AES Encryption Key Material
+
+With an extracted (flash) memory dump the key material can be extracted or new values can be set.
+
+![Memory Location of Key Material](./files/patching_key_material.png)
+
+### MQTT Broker Hostname
+
+To change the MQTT Broker the Nello One connects to, replace the hostname at the specified location in the firmware.
+
+![MQTT Hostname Location](./files/patching_mqtt_hostname.png)
+
+### Nello Device ID
+
+The device ID of the Nello is located three times in the firmware
+
+![Device ID (1)](./files/patching_nello_device_id_1.png)
+![Device ID (2)](./files/patching_nello_device_id_2.png)
+![Device ID (3)](./files/patching_nello_device_id_3.png)
