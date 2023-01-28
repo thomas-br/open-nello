@@ -90,7 +90,7 @@ class NelloMQTTClient {
     }
 
     void subscribeTo(char* topic) {
-        if (client->subscribe(topic, qos)) {
+        if (client->subscribe(topic, mqtt_qos)) {
           LOG0("Successfully subscribed to topic [");
           LOG0(topic);
           LOG0("]\n");
