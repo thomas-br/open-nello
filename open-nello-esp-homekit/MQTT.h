@@ -82,11 +82,11 @@ class NelloMQTTClient {
     }
 
     void handleMap(){
-      sendMessage(mqtt_topic_test, "0;10;0;0;0;0;0;0;");
+      sendMessage(mqtt_topic_test, nello_intercom_config);
     }
 
      void handleNOnline(){
-      sendMessage(mqtt_topic_beack, "0;0;");
+      sendMessage(mqtt_topic_beack, nello_default_mode);
     }
 
     void subscribeTo(char* topic) {

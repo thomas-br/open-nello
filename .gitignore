@@ -1,2 +1,5 @@
 .DS_Store
 */Config.h
+*/debug_custom.json
+*/debug.cfg
+*/esp32.svd
