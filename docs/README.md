@@ -21,8 +21,6 @@
     - [`/nello_one/<client-id>/geo/`](#nello_oneclient-idgeo)
     - [`/nello_one/<client-id>/tw/`](#nello_oneclient-idtw)
     - [`/nello_one/<client-id>/ring/`](#nello_oneclient-idring)
-  - [Intercom Configuration Values](#intercom-configuration-values)
-  - [Simplified State Diagram](#simplified-state-diagram)
   - [Firmware Patching](#firmware-patching)
     - [General](#general-1)
     - [Hardware Glitching (Fault Injection Attack)](#hardware-glitching-fault-injection-attack)
@@ -30,6 +28,8 @@
     - [AES Encryption Key Material](#aes-encryption-key-material)
     - [MQTT Broker Hostname](#mqtt-broker-hostname)
     - [Nello Device ID](#nello-device-id)
+  - [Intercom Configuration Values](#intercom-configuration-values)
+  - [Simplified State Diagram (German only)](#simplified-state-diagram-german-only)
 
 ## Hardware Overview
 
@@ -295,20 +295,6 @@ The code indicates the current mode of the nello, in which a ring signal was det
 | `2` | Actime time-window opening mode <br> Automatic opening after a short delay|
 | `3` | Regular operation mode. <br> No automatic opening |
 
-
-
-## Intercom Configuration Values
-
-All supported intercom models and its configuration values are available to the author of this project and will be added to this documentation soon.
-
-`// TODO`
-
-## Simplified State Diagram
-
-A simplified state diagram is planned to illustrate the message flows further
-
-`// TODO`
-
 ## Firmware Patching
 
 ### General
@@ -375,3 +361,53 @@ The device ID of the Nello is located three times in the firmware
 ![Device ID (1)](./files/patching_nello_device_id_1.png)
 ![Device ID (2)](./files/patching_nello_device_id_2.png)
 ![Device ID (3)](./files/patching_nello_device_id_3.png)
+
+## Intercom Configuration Values
+
+The raw configuration values for all supported intercom brands and models of the Nello One are available as json payloads in the document [Intercom Brands](./intercom-configurations.md).
+
+Find your model and transfer the values into the structure for the mqtt payload described [here](#nello_oneclient-idtest).
+
+Example:
+
+Model: `STR Elektronik – HT2003/2`
+
+Configuration Values:
+```json
+{
+      "brand": "STR Elektronik",
+      "bus_driver_toggle_mask": 0,
+      "comp_trigger_voltage": 0.0,
+      "compatibility": "yes",
+      "expected_errors": 0,
+      "form_factor": "Phone",
+      "id": 633,
+      "intercom_type": 10,
+      "learning_mode": false,
+      "model": "HT2003/2",
+      "opening_instructions": null,
+      "port_labels": "",
+      "port_matching": "1=0,2=1,3=1,4=0,5=S",
+      "power_level": 2,
+      "technology": "Mehrdraht",
+      "testing_status": "yes",
+      "time_delta_bus_reception": 0,
+      "time_delta_sync_bit": 0,
+      "time_sync_bit": 0,
+      "timeout_bus_reception": 0,
+      "video": false
+    }
+```
+
+Transformed structure for MQTT: `0;10;0;0;0;0;0;0;`
+
+The payload also contains the explanation on how to wire up the Nello to the Intercom system.
+
+## Simplified State Diagram (German only)
+
+A simplified state diagram is planned to illustrate the message flows further.
+Currently it is only available in German.
+Contributions welcome to detail it out and translate it via its [PlantUML Source file](./files/state.plantuml).
+
+![StateDiagram](./files/state-full.png)
+

@@ -1,0 +1,85 @@
+@startuml
+
+start
+
+:LED anschalten nach Start;
+
+if (Nello bereits initialisiert) then (nein)
+    repeat
+        :Starte Kopplungsmodus;
+        repeat
+            :Supercap laden;
+        repeat while (Ladezustand ausreichend)  is (nein) not (ja)
+        repeat
+        repeat while (Beginn der Präambel erkannt) is (nein) not (ja)
+        :Empfangen von Präambel;
+        :Empfangen der Konfiguration;
+    repeat while (Konfiguration korrekt) is (nein) not (ja)
+    :Speichern der Konfiguration;
+else (ja)
+  :Lade Konfiguration aus Speicher;
+  repeat
+  :Supercap laden;
+repeat while (Ladezustand ausreichend)  is (nein) not (ja)
+endif
+
+:WLAN Verbindung herstellen;
+:Verbindung zu MQTT Server herstellen;
+:Senden von Location ID (map);
+:Empfangen von Intercom Parametern & Timestamp (test);
+:Synchronisiere interne Clock mit Timestamp;
+:Lade Status aus Speicher;
+if (Learning bereits abgeschlossen) then (nein)
+    :Warte auf Befehl Lernmodus (BEn) & Test Türöffnung (BEn);
+    :Öffne Tür & Bestätigung (n_ACK);
+    :Warte auf Test Klingelsignal & Bestätigung (n_to_BE);
+    :Abschluss Lernmodus & Speichern von Status;
+else (ja)
+  :Lade Konfiguration aus Speicher;
+endif
+:Sende n_online & Warte auf Zielzustand (BE_ACK);
+:Speichere Zielzustand (normal_operation / tw / geo);
+repeat
+  repeat
+  if (Prüfung des Timer Status) then (15min vergangen)
+      :Sende n_online & Warte auf Zielzustand (BE_ACK);
+      :Speichere Zielzustand (normal_operation / tw / geo);
+  endif
+  repeat while (Ereignis erhalten) is (nein) not (ja)
+  if(Typ des Ereignisses) then (Befehl)
+    switch (Befehl) 
+      case (door)
+          :Öffne Tür;
+          :Sende Bestätigung (n_ACK);
+      case (tw=1)
+        :Aktiviere Time Window Modus;
+        :Sende Bestätigung (n_ACK);
+      case (tw=0)
+        :Deaktiviere Time Window Modus;
+        :Sende Bestätigung (n_ACK);
+      case (geo=1)
+        :Aktiviere GEO Modus;
+        :Sende Bestätigung (n_ACK);
+      case (geo=0)
+        :Deaktiviere GEO Modus;
+        :Sende Bestätigung (n_ACK);
+    endswitch
+  else (Klingelsignal)
+    switch (Modus) 
+      case (Time Window)
+        :Sende Klingel Info (ring);
+        :Öffne Tür automatisch;
+        :Sende Bestätigung (n_ACK);
+      case (GEO)
+        :Sende Klingel Info (ring);
+        :Öffne Tür automatisch;
+        :Sende Bestätigung (n_ACK);
+      case (normal_operation)
+        :Sende Klingel Info (ring);
+        :Sende Bestätigung (n_ACK);
+    endswitch
+  endif
+repeat while ()
+stop
+
+@enduml
