@@ -410,4 +410,3 @@ Currently it is only available in German.
 Contributions welcome to detail it out and translate it via its [PlantUML Source file](./files/state.plantuml).
 
 ![StateDiagram](./files/state-full.png)
-
