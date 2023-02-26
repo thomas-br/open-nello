@@ -12,7 +12,7 @@ This project was done with being aware of existing publications regarding the Ne
 
 ## Documentation
 
-Extensive Documentation about the Nello One, its internal behavior as well as the communication protocol can be found in the [docs](./docs/README.md).
+Extensive documentation about the Nello One, its internal behavior as well as the communication protocol can be found in the [docs](./docs/README.md).
 
 ## Support this project and the research
 
